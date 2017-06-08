@@ -1,4 +1,3 @@
-import os,sys
 from mount import *
 
 
@@ -39,16 +38,9 @@ if devices:
 
 
     
-if not is_mounted(path):
+else:
+    print("salva in locale")
+    path = "/home/stage/cartellafatta/"
     os.system("mkdir -p " + path)
-    os.system("mount %s %s" % (partition, path))
-
-
-
-
-'''''''''''
-            else:
-            print("salva in locale")
-            with open("/home/stage/dirnousb/hello-world.txt", "w") as f:
-                f.write("Hello World")
-'''''
+    with open(path + "hello-world.txt", "w") as f:
+        f.write("Hello World")
