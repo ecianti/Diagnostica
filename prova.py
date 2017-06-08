@@ -1,22 +1,12 @@
-import usb
-busses = usb.busses()
-for bus in busses:
-    devices = bus.devices
-
-    for dev in devices:
-
-
-        print "porta attiva", dev.filename
-
-        documento = open("/media/stage/F8D0-7695/pippo/nuovodoc.txt", "w")
-        documento.write("testo scritto")
-        documento.close()
-
-        doc = open("/media/stage/F8D0-7695/pippo/nuovodoc.txt", "r")
-        text = doc.readline()
-        doc.close()
-        print(text)
-
-
-        #print "  idVendor: %d (0x%04x)" % (dev.idVendor, dev.idVendor)
-        #print "  idProduct: %d (0x%04x)" % (dev.idProduct, dev.idProduct)""'''
+import os
+partitionsFile = open("/proc/partitions")
+lines = partitionsFile.readlines()[2:]#Skips the header lines
+for line in lines:
+    words = [x.strip() for x in line.split()]
+    minorNumber = int(words[1])
+    deviceName = words[3]
+    if minorNumber % 16 == 0:
+        path = "/sys/class/block/" + deviceName
+        if os.path.islink(path):
+            if os.path.realpath(path).find("/usb") > 0:
+                print "/dev/%s" % deviceName
