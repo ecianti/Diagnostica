@@ -1,5 +1,6 @@
-import shutil
 import datetime
+import shutil
+
 from mount import *
 
 
@@ -40,7 +41,7 @@ if devices:
             os.remove('/home/stage/cartellafatta/localfile.txt')
             os.rmdir('/home/stage/cartellafatta/')
 
-        with open(path + "/file usb.txt", "w") as f: #e' il file principale
+        with open(path + "/file usb.txt", "w") as f:  # e' il file principale
             f.write("Hello World")
         unmount(device)
 
@@ -53,5 +54,5 @@ else:
     print datetime.datetime.now()
     path = "/home/stage/cartellafatta/"
     os.system("mkdir -p " + path)
-    with open(path + "localfile.txt", "w") as f: #file temporaneo
+    with open(path + "localfile.txt", "w") as f:  # file temporaneo
         f.write("Hello World")
