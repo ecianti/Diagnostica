@@ -1,5 +1,6 @@
-from mount import *
+import shutil
 
+from mount import *
 
 
 def get_partition(device):
@@ -32,13 +33,15 @@ if devices:
 
     if is_mounted(device):
         print device, "\nsalva sulla chiavetta"
-        with open(path + "/hello-world.txt", "w") as f:
+        shutil.copy2('/home/stage/cartellafatta/hello-world.txt', path)  # complete target filename given
+        with open(path + "/llo-world.txt", "w") as f:
             f.write("Hello World")
         unmount(device)
 
 
-    
+
 else:
+
     print("salva in locale")
     path = "/home/stage/cartellafatta/"
     os.system("mkdir -p " + path)
