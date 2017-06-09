@@ -1,5 +1,5 @@
 import shutil
-
+import datetime
 from mount import *
 
 
@@ -33,8 +33,14 @@ if devices:
 
     if is_mounted(device):
         print device, "\nsalva sulla chiavetta"
-        shutil.copy2('/home/stage/cartellafatta/hello-world.txt', path)  # complete target filename given
-        with open(path + "/llo-world.txt", "w") as f:
+        datetime.datetime.now()
+        print datetime.datetime.now()
+        shutil.copy2('/home/stage/cartellafatta/localfile.txt', path)  # copia il file da dispositivo a usb
+        if path + 'localfile.txt':
+            os.remove('/home/stage/cartellafatta/localfile.txt')
+            os.rmdir('/home/stage/cartellafatta/')
+
+        with open(path + "/file usb.txt", "w") as f: #e' il file principale
             f.write("Hello World")
         unmount(device)
 
@@ -43,7 +49,9 @@ if devices:
 else:
 
     print("salva in locale")
+    datetime.datetime.now()
+    print datetime.datetime.now()
     path = "/home/stage/cartellafatta/"
     os.system("mkdir -p " + path)
-    with open(path + "hello-world.txt", "w") as f:
+    with open(path + "localfile.txt", "w") as f: #file temporaneo
         f.write("Hello World")
