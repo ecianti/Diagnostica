@@ -38,11 +38,14 @@ if devices:
         print datetime.datetime.now()
         shutil.copy2('/home/stage/cartellafatta/localfile.txt', path)  # copia il file da dispositivo a usb
         if path + 'localfile.txt':
+
             os.remove('/home/stage/cartellafatta/localfile.txt')
             os.rmdir('/home/stage/cartellafatta/')
 
-        with open(path + "/file usb.txt", "w") as f:  # e' il file principale
+        with open(path + "/file-usb.txt", "w") as f:  # e' il file principale
             f.write("Hello World")
+            f.close()
+
         unmount(device)
 
 
@@ -56,3 +59,4 @@ else:
     os.system("mkdir -p " + path)
     with open(path + "localfile.txt", "w") as f:  # file temporaneo
         f.write("Hello World")
+
