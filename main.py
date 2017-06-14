@@ -5,7 +5,7 @@ from mount import *
 
 
 def get_partition(device):
-    """ Restituisce tutte le partizioni per il dispositivo """
+    """ Restituisce una partizione per il dispositivo """
     partitionsFile = open("/proc/partitions")
     lines = partitionsFile.readlines()[2:]
     partitionsFile.close()
