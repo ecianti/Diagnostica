@@ -1,62 +1,67 @@
-import datetime
-import shutil
+import time
 
+from StoppableThread import StoppableThread, LoggerThread
 from mount import *
+from utility import my_fib, gfib
+
+n = 0
+scrittura_in_locale = True
+logger = None
+
+try:
+    while True:
+        n += 1
+        x = my_fib(n)
+        gfib = x
+        time.sleep(1)
+        devices = list_media_devices()
+        time.sleep(1)
+        #
+        if scrittura_in_locale:
+            if not (logger and logger.is_alive()):
+                logger = LoggerThread(n)
+                logger.start()
+                scrittura_in_locale = False
+        else:
+            logger.join()
+            print("Salvataggio su chiavetta")
+        #     if devices:  # controlla se c'e' la chiavetta
+        #         #
+        #         # device = devices[0]
+        #         # path_chiavetta = get_media_path(device)
+        #         # mount(device)  #monta la chiavetta
+        #         #
+        #         # if is_mounted(device): #controlla se e' montata la usb
+        #         #     shutil.copy2(file_local_path, path_chiavetta)      #copia il file da locale a chiavetta
+        #         #     #os.remove(file_local_path) #dove va messo, cancellerebbe il file da locale
+        #         # scrittura_in_locale = True
+        #
+            if logger.is_alive():
+                logger.stop()
+
+            scrittura_in_locale = True
+        #
+        #     else:# se non c'e' la chiavetta continua a scrivere ciclicamente sul file locale
+        #         pass
+except KeyboardInterrupt:
+    logger.stop()
 
 
-def get_partition(device):
-    """ Restituisce una partizione per il dispositivo """
-    partitionsFile = open("/proc/partitions")
-    lines = partitionsFile.readlines()[2:]
-    partitionsFile.close()
-    partitions = ["/dev/" + line.split()[-1] for line in lines]
-    return_partitions = []
-    for p in partitions:
-        if device in p and p != device:
-            return_partitions.append(p)
-    return return_partitions[0]
-
-def mount(device, name=None):
-
-    if not name:
-        name = get_device_name(device)
-    mount_partition(get_partition(device), name)
 
 
+'''
+            x = open(file_local_path, "r+")
+            for j in range(100):
+          
+          3       x.write("Ciao" + str(j))
+            scrittura_in_locale = False
+        x.close()
 
 
+       unThread = Thread(target=write_log, )
+           unThread.start()
+          scrittura_in_locale = False
+         gfib = x
+ f.close()
 
-devices = list_media_devices()
-if devices:
-    device = devices[0]
-    path = get_media_path(device)
-    mount(device)
-
-    if is_mounted(device):
-        print device, "\nsalva sulla chiavetta"
-        datetime.datetime.now()
-        print datetime.datetime.now()
-        shutil.copy2('/home/stage/cartellafatta/localfile.txt', path)  # copia il file da dispositivo a usb
-        if path + 'localfile.txt':
-
-            os.remove('/home/stage/cartellafatta/localfile.txt')
-            os.rmdir('/home/stage/cartellafatta/')
-
-        with open(path + "/file-usb.txt", "w") as f:  # e' il file principale
-            f.write("Hello World")
-            f.close()
-
-        unmount(device)
-
-
-
-else:
-
-    print("salva in locale")
-    datetime.datetime.now()
-    print datetime.datetime.now()
-    path = "/home/stage/cartellafatta/"
-    os.system("mkdir -p " + path)
-    with open(path + "localfile.txt", "w") as f:  # file temporaneo
-        f.write("Hello World")
-
+'''
